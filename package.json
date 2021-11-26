@@ -1,10 +1,15 @@
 {
   "bugs": {
-    "url": "https://github.com/bennycode/ts-node-starter/issues"
+    "url": "https://github.com/lei1996/rxjs-trading-signals/issues"
   },
-  "dependencies": {},
-  "description": "",
+  "dependencies": {
+    "big.js": "6.1.1",
+    "rxjs": "7.4.0",
+    "trading-signals": "3.0.0"
+  },
+  "description": "The user - defined operator helps users quickly output index values. base trading-signals library",
   "devDependencies": {
+    "@types/big.js": "6.1.2",
     "@types/jest": "27.0.2",
     "@types/node": "16.11.6",
     "@typescript-eslint/eslint-plugin": "5.2.0",
@@ -33,17 +38,22 @@
   },
   "files": [
     "dist",
+    "!dist/start",
+    "!dist/test",
     "!dist/**/*.test.*"
   ],
-  "homepage": "https://documentup.com/bennycode/ts-node-starter",
-  "keywords": [],
-  "license": "UNLICENSED",
+  "homepage": "https://github.com/lei1996/rxjs-trading-signals",
+  "keywords": [
+    "rxjs",
+    "trading-signals",
+    "stream data"
+  ],
+  "license": "MIT",
   "main": "dist/index.js",
-  "name": "ts-node-starter",
-  "private": true,
+  "name": "rxjs-trading-signals",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/bennycode/ts-node-starter.git"
+    "url": "git+https://github.com/lei1996/rxjs-trading-signals"
   },
   "scripts": {
     "build": "tsc",
@@ -69,5 +79,5 @@
     "test:coverage": "yarn test --coverage",
     "test:types": "yarn lint:types"
   },
-  "version": "0.0.0"
+  "version": "0.1.0"
 }
