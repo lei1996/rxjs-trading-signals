@@ -1,0 +1,45 @@
+name: 'Run Tests'
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  'Build':
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        node-version: [16.x]
+    steps:
+      - name: 'Checkout Git repository with history for all branches and tags'
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: 'Use Node.js ${{ matrix.node-version }}'
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: 'Install, lint, and test'
+        run: |
+          yarn install --frozen-lockfile
+          yarn lint
+          yarn test:coverage
+        if: |
+          contains(github.event.commits[0].message, '[skip ci]') == false &&
+          contains(github.event.commits[0].message, '[ci skip]') == false
+
+      - name: 'Upload coverage reports to Codecov'
+        uses: codecov/codecov-action@v1.0.5
+        with:
+          fail_ci_if_error: false
+          file: ./coverage/lcov.info
+          flags: unittests
+          token: ${{ secrets.CODECOV_TOKEN }}
+          yml: ./codecov.yml
