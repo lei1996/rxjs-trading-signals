@@ -3,13 +3,13 @@
     "url": "https://github.com/lei1996/rxjs-trading-signals/issues"
   },
   "dependencies": {
-    "big.js": "6.1.1",
+    "big.js": "6.2.0",
     "rxjs": "7.4.0",
     "trading-signals": "3.0.0"
   },
   "description": "The user - defined operator helps users quickly output index values. base trading-signals library",
   "devDependencies": {
-    "@types/big.js": "6.1.2",
+    "@types/big.js": "6.1.4",
     "@types/jest": "27.0.2",
     "@types/node": "16.11.6",
     "@typescript-eslint/eslint-plugin": "5.2.0",
