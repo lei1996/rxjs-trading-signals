@@ -54,7 +54,7 @@ export const MACD = (config: MACDConfig) => {
           }),
           indicator(signalInterval, true),
           map(signal => ({
-            histogram: macd.sub(signal),
+            histogram: macd.minus(signal),
             macd: macd,
             signal: new Big(signal),
           }))
