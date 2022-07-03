@@ -2,7 +2,7 @@ import Big, {BigSource} from 'big.js';
 import {Observable, concatMap, Subscriber, filter, of} from 'rxjs';
 import {isZero} from '../utils/isZero';
 
-export const EMA = (interval: number) => {
+export const EMA = (interval: number, isOutput: boolean = false) => {
   return (observable: Observable<BigSource>) =>
     new Observable<BigSource>((subscriber: Subscriber<BigSource>) => {
       let result: BigSource = new Big(0);
@@ -23,7 +23,7 @@ export const EMA = (interval: number) => {
 
             result = price.times(weightFactor).add(w);
 
-            return of(result).pipe(filter(() => count >= interval));
+            return of(result).pipe(filter(() => isOutput || count >= interval));
           })
         )
         .subscribe({
