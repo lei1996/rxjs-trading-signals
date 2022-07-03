@@ -5,3 +5,4 @@ export * from './WSMA/WSMA';
 export * from './DEMA/DEMA';
 export * from './DMA/DMA';
 export * from './EMA/EMA';
+export * from './MACD/MACD';

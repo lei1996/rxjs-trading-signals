@@ -12,7 +12,7 @@ import {EMA} from '../EMA/EMA';
  *
  * @see https://www.investopedia.com/terms/d/double-exponential-moving-average.asp
  */
-export const DEMA = (interval: number) => {
+export const DEMA = (interval: number, isOutput: boolean = false) => {
   return (observable: Observable<BigSource>) =>
     new Observable<BigSource>((subscriber: Subscriber<BigSource>) => {
       let innerResult: BigSource = new Big(0);
@@ -21,7 +21,7 @@ export const DEMA = (interval: number) => {
         .pipe(
           EMA(interval, true),
           tap(x => (innerResult = x)),
-          EMA(interval),
+          EMA(interval, isOutput),
           concatMap(outerResult => {
             return of(new Big(innerResult).times(2).minus(outerResult));
           })
