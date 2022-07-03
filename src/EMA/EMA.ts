@@ -1,28 +1,29 @@
 import Big, {BigSource} from 'big.js';
-import {Observable, concatMap, Subscriber, filter, tap, of} from 'rxjs';
-import {SMA} from '../SMA/SMA';
+import {Observable, concatMap, Subscriber, filter, of} from 'rxjs';
 import {isZero} from '../utils/isZero';
 
-export const WSMA = (interval: number) => {
+export const EMA = (interval: number) => {
   return (observable: Observable<BigSource>) =>
     new Observable<BigSource>((subscriber: Subscriber<BigSource>) => {
       let result: BigSource = new Big(0);
-      let curr: BigSource = new Big(0);
-      const smoothingFactor = new Big(1).div(interval);
+      let weightFactor: number = 2 / (interval + 1);
+      let count: number = 0;
 
       const subscription = observable
         .pipe(
-          tap(price => (curr = price)),
-          SMA(interval),
-          concatMap(sma => {
-            if (!isZero(result)) {
-              const smoothed = new Big(curr).minus(result).times(smoothingFactor);
-              result = smoothed.plus(result);
-            } else if (isZero(result) && sma) {
-              result = sma;
+          concatMap(_price => {
+            count++;
+            const price = new Big(_price);
+
+            if (isZero(result)) {
+              result = price;
             }
 
-            return of(result).pipe(filter(x => !isZero(x)));
+            const w = new Big(result).times(1 - weightFactor);
+
+            result = price.times(weightFactor).add(w);
+
+            return of(result).pipe(filter(() => count >= interval));
           })
         )
         .subscribe({
@@ -42,7 +43,8 @@ export const WSMA = (interval: number) => {
         subscription.unsubscribe();
         // Clean up all state.
         result = null!;
-        curr = null!;
+        weightFactor = null!;
+        count = null!;
       };
     });
 };
