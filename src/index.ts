@@ -8,3 +8,4 @@ export * from './EMA/EMA';
 export * from './MACD/MACD';
 export * from './ATR/ATR';
 export * from './DX/DX';
+export * from './ADX/ADX';
