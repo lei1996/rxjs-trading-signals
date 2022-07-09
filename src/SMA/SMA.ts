@@ -3,7 +3,7 @@ import {from, Observable, concatMap, Subscriber, bufferCount, scan, map, last, f
 
 export const SMA = (interval: number) => {
   return (observable: Observable<BigSource>) =>
-    new Observable<BigSource>((subscriber: Subscriber<BigSource>) => {
+    new Observable<Big>((subscriber: Subscriber<Big>) => {
       const subscription = observable
         .pipe(
           bufferCount(interval, 1),

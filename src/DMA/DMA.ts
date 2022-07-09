@@ -1,5 +1,5 @@
 import Big, {BigSource} from 'big.js';
-import {Observable, concatMap, Subscriber, filter, of, share, zip} from 'rxjs';
+import {Observable, concatMap, Subscriber, of, share, zip, skip} from 'rxjs';
 import {SMA} from '../SMA/SMA';
 import {MovingAverageTypes} from '../utils/MovingAverageTypes';
 
@@ -29,7 +29,7 @@ export const DMA = (short: number, long: number, Indicator: MovingAverageTypes =
       const subscription = zip(
         source$.pipe(
           Indicator(short),
-          filter((_, i) => i >= long - short) // long > short
+          skip(long - short) // long > short
         ),
         source$.pipe(Indicator(long))
       )

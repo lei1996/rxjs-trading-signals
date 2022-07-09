@@ -1,5 +1,5 @@
 import Big, {BigSource} from 'big.js';
-import {Observable, concatMap, Subscriber, filter, of, share, zip, map} from 'rxjs';
+import {Observable, concatMap, Subscriber, of, share, zip, map, skip} from 'rxjs';
 import {DEMA} from '../DEMA/DEMA';
 import {EMA} from '../EMA/EMA';
 
@@ -41,7 +41,7 @@ export const MACD = (config: MACDConfig) => {
       const subscription = zip(
         source$.pipe(
           indicator(shortInterval),
-          filter((_, i) => i >= longInterval - shortInterval) // long > short
+          skip(longInterval - shortInterval) // long > short
         ),
         source$.pipe(indicator(longInterval))
       )
