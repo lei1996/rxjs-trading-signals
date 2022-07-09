@@ -4,8 +4,7 @@
   },
   "dependencies": {
     "big.js": "6.2.0",
-    "rxjs": "7.5.5",
-    "trading-signals": "3.6.1"
+    "rxjs": "7.5.5"
   },
   "description": "The user - defined operator helps users quickly output index values. base trading-signals library",
   "devDependencies": {
@@ -79,5 +78,5 @@
     "test:coverage": "yarn test --coverage",
     "test:types": "yarn lint:types"
   },
-  "version": "0.2.2"
+  "version": "0.3.0"
 }

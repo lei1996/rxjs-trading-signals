@@ -1,7 +1,7 @@
-import {concatMap, filter, from, map, of, share} from 'rxjs';
-import {RSI as dma1} from 'trading-signals';
+import {from, map, share} from 'rxjs';
 import {mock} from './mock';
-import {RSI} from './RSI/RSI';
+import {MACD} from './MACD/MACD';
+import {EMA} from './EMA/EMA';
 
 console.log('This is what would run if your app gets started.');
 const source$ = from(mock).pipe(
@@ -10,19 +10,22 @@ const source$ = from(mock).pipe(
   share()
 );
 
-const dma = new dma1(3);
+console.log('--------------------------------');
 
 source$
   .pipe(
-    // map(({close}) => close),
-    concatMap(x => {
-      dma.update(x);
-
-      return of(dma).pipe(filter(() => dma.isStable));
+    MACD({
+      indicator: EMA,
+      shortInterval: 12,
+      longInterval: 26,
+      signalInterval: 9,
     })
   )
-  .subscribe(x => console.log(x.getResult().toString(), 'dx ->'));
-
-console.log('--------------------------------');
-
-source$.pipe(RSI(3)).subscribe(x => console.log(x.toString(), 'dx ->'));
+  .subscribe(({histogram, macd, signal}) =>
+    console.log(
+      histogram.round(8).toString(),
+      macd.round(8).toString(),
+      signal.round(8).toString(),
+      'result: macd value'
+    )
+  );
