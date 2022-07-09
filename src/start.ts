@@ -1,19 +1,20 @@
 import {concatMap, filter, from, map, of, share} from 'rxjs';
-import {CG as dma1} from 'trading-signals';
+import {RSI as dma1} from 'trading-signals';
 import {mock} from './mock';
-import {CG} from './CG/CG';
+import {RSI} from './RSI/RSI';
 
 console.log('This is what would run if your app gets started.');
 const source$ = from(mock).pipe(
-  map(({close, high, low}) => ({close, high, low})),
+  // map(({close, high, low}) => ({close, high, low})),
+  map(({close}) => close),
   share()
 );
 
-const dma = new dma1(3, 5);
+const dma = new dma1(3);
 
 source$
   .pipe(
-    map(({close}) => close),
+    // map(({close}) => close),
     concatMap(x => {
       dma.update(x);
 
@@ -24,4 +25,4 @@ source$
 
 console.log('--------------------------------');
 
-source$.pipe(map(({close}) => close),CG(3, 5)).subscribe(x => console.log(x.toString(), 'dx ->'));
+source$.pipe(RSI(3)).subscribe(x => console.log(x.toString(), 'dx ->'));
