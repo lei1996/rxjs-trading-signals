@@ -2,17 +2,17 @@ import Big, {BigSource} from 'big.js';
 import {map, Observable, Subscriber} from 'rxjs';
 
 /// 1: 上穿upper 2: 上穿之后回落跌破upper 3: 上穿lower 4: 跌破lower
-export type BuySellResult = 1 | 2 | 3 | 4;
+export type TradeResult = 1 | 2 | 3 | 4;
 
 export const tradeRx = (upper: number, lower: number) => {
   return (observable: Observable<BigSource>) =>
-    new Observable<BuySellResult>((subscriber: Subscriber<BuySellResult>) => {
+    new Observable<TradeResult>((subscriber: Subscriber<TradeResult>) => {
       let prev = 0;
 
       const subscription = observable.pipe(map(x => new Big(x))).subscribe({
         next(r) {
           if (r.gt(upper)) {
-            if (prev !== 1) {
+            if (prev !== 0 && prev !== 1) {
               subscriber.next(1);
             }
             prev = 1;
@@ -24,7 +24,7 @@ export const tradeRx = (upper: number, lower: number) => {
             }
             prev = 2;
           } else {
-            if (prev !== 3) {
+            if (prev !== 0 && prev !== 3) {
               subscriber.next(4);
             }
             prev = 3;
