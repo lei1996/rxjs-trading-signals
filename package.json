@@ -3,8 +3,8 @@
     "url": "https://github.com/lei1996/rxjs-trading-signals/issues"
   },
   "dependencies": {
-    "big.js": "6.2.0",
-    "rxjs": "7.5.5"
+    "big.js": "6.2.1",
+    "rxjs": "7.5.6"
   },
   "description": "The user - defined operator helps users quickly output index values. base trading-signals library",
   "devDependencies": {
@@ -78,5 +78,5 @@
     "test:coverage": "yarn test --coverage",
     "test:types": "yarn lint:types"
   },
-  "version": "0.3.3"
+  "version": "0.3.4"
 }
